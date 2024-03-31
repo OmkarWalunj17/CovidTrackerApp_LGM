@@ -1,6 +1,7 @@
 package com.example.covid19tracker;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -54,19 +55,24 @@ public class activity_maha extends AppCompatActivity {
                             @Override
                             public void onResponse(JSONObject response) {
                                 try {
-                                    // Parse the JSON response to extract data for the selected district
-                                    JSONObject districtData = response.getJSONObject("districtData");
-                                    JSONObject selectedDis = districtData.getJSONObject("selectedDistrict");
-                                    int activeCases = selectedDis.getInt("active");
-                                    int confirmedCases = selectedDis.getInt("confirmed");
-                                    int recoveredCases = selectedDis.getInt("recovered");
+                                    JSONObject maharashtraState = response.getJSONObject("Maharashtra");
+
+                                    JSONObject districtData = maharashtraState.getJSONObject("districtData");
+
+                                    JSONObject thaneData = districtData.getJSONObject("Thane");
+
+                                    int activeCases = thaneData.getInt("active");
+                                    int confirmedCases = thaneData.getInt("confirmed");
+                                    int recoveredCases = thaneData.getInt("recovered");
 
                                     // Display the data in a toast or update UI accordingly
-                                    String message = "District: " + selectedDis +
+                                    String message = "District: " + selectedDistrict +
                                             "\nActive Cases: " + activeCases +
                                             "\nConfirmed Cases: " + confirmedCases +
                                             "\nRecovered Cases: " + recoveredCases;
                                     Toast.makeText(activity_maha.this, message, Toast.LENGTH_LONG).show();
+
+                                    Log.d( "myapp",  "Resposnse: "  + "\n" + activeCases + "\n" + confirmedCases + "\n" + recoveredCases);
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                     Toast.makeText(activity_maha.this, "Error parsing JSON", Toast.LENGTH_SHORT).show();
@@ -79,23 +85,8 @@ public class activity_maha extends AppCompatActivity {
                                 Toast.makeText(activity_maha.this, "Error fetching data", Toast.LENGTH_SHORT).show();
                             }
                         });
-
                 requestQueue.add(jsonObjectRequest);
             }
         });
     }
 }
-
-
-//    JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
-//            URL, null, new Response.Listener<JSONObject>() {
-//        @Override
-//        public void onResponse(JSONObject response) {
-//            try {
-//                //
-//                jsonObjectRequest
-//            } catch (Exception e) {
-//                throw new RuntimeException(e);
-//            }
-//        }
-//    }

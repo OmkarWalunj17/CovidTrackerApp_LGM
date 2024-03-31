@@ -24,7 +24,7 @@ import org.json.JSONObject;
 public class MainActivity extends AppCompatActivity {
     private ListView list;
     private final String URL = "https://data.covid19india.org/state_district_wise.json";
-    private RequestQueue requestQueue;
+    public RequestQueue requestQueue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,62 +75,61 @@ public class MainActivity extends AppCompatActivity {
             }
 
         });
-
         // Volley JSON Object Request
-//        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
-//                URL, null,
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
+                URL, null,
+
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            // Check if response is not null
+                            if (response != null) {
+                                // Get data for Maharashtra
+                                JSONObject maharashtraData = response.getJSONObject("Maharashtra");
+                                JSONObject districtData = maharashtraData.getJSONObject("districtData");
+                                JSONObject Thane = districtData.getJSONObject("Thane");
+
+                                int active = Thane.getInt("active");
+                                int confirmed = Thane.getInt("confirmed");
+                                int deceased = Thane.getInt("deceased");
+                                int recovered = Thane.getInt("recovered");
+
+                                Toast.makeText(MainActivity.this, "Thane:" +  "\nActive : " + active + "\nConfirmed" +
+                                        confirmed + "\nRecovered : " + recovered, Toast.LENGTH_LONG).show();
+                                // Clear existing data in dataList
+//                                dataList.clear();
+
+                                // Iterate through all districts
+//                                Iterator<String> districtKeys = districtData.keys();
+//                                while (districtKeys.hasNext()) {
+//                                    String districtName = districtKeys.next();
+//                                    JSONObject districtInfo = districtData.getJSONObject(districtName);
 //
-//                new Response.Listener<JSONObject>() {
-//                    @Override
-//                    public void onResponse(JSONObject response) {
-//                        try {
-//                            // Check if response is not null
-//                            if (response != null) {
-//                                // Get data for Maharashtra
-//                                JSONObject maharashtraData = response.getJSONObject("Maharashtra");
-//                                JSONObject districtData = maharashtraData.getJSONObject("districtData");
-//                                JSONObject Thane = districtData.getJSONObject("Thane");
+//                                    // Add district data to the dataList
+//                                    dataList.add(new Model(districtName, active, confirmed, deceased, recovered));
+//                                }
 //
-//                                     int active = Thane.getInt("active");
-//                                    int confirmed = Thane.getInt("confirmed");
-//                                    int deceased = Thane.getInt("deceased");
-//                                    int recovered = Thane.getInt("recovered");
+//                                // Notify the adapter that the data has changed
+//                                CovidAdapter adapter = new CovidAdapter(MainActivity.this, dataList);
+////                                listView.setAdapter(adapter);
+////                                adapter.notifyDataSetChanged();
+                            }
+                        } catch (JSONException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+                        Log.d("myapp", "Something is wrong !");
+                        Toast.makeText(MainActivity.this, "Error fetching data: " + volleyError.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+        );
 //
-//                                Toast.makeText(MainActivity.this, "\n Active : " + active + "\n" + confirmed, Toast.LENGTH_LONG).show();
-//                                // Clear existing data in dataList
-////                                dataList.clear();
-//
-//                                // Iterate through all districts
-////                                Iterator<String> districtKeys = districtData.keys();
-////                                while (districtKeys.hasNext()) {
-////                                    String districtName = districtKeys.next();
-////                                    JSONObject districtInfo = districtData.getJSONObject(districtName);
-////
-////
-////
-////                                    // Add district data to the dataList
-////                                    dataList.add(new Model(districtName, active, confirmed, deceased, recovered));
-////                                }
-////
-////                                // Notify the adapter that the data has changed
-////                                CovidAdapter adapter = new CovidAdapter(MainActivity.this, dataList);
-//////                                listView.setAdapter(adapter);
-//////                                adapter.notifyDataSetChanged();
-//                            }
-//                        } catch (JSONException e) {
-//                            throw new RuntimeException(e);
-//                        }
-//                    }
-//                },
-//                new Response.ErrorListener() {
-//                    @Override
-//                    public void onErrorResponse(VolleyError volleyError) {
-//                        Log.d("myapp", "Something is wrong !");
-//                        Toast.makeText(MainActivity.this, "Error fetching data: " + volleyError.getMessage(), Toast.LENGTH_SHORT).show();
-//                    }
-//                }
-//        );
-//
-//        requestQueue.add(jsonObjectRequest);
+        requestQueue.add(jsonObjectRequest);
     }
 }
+//}
