@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">TrackCovid</string>
+    <string name="texttool">Covid19 Tracker App</string>
+    <string name="action_settings">Settings</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+    <string name="details">Details</string>
+    <string name="title_activity_mh">ActivityMH</string>
+    <string name="districts_mh">districts(MH)</string>
+    <string name="states_of_india">States of India</string>
+    <string name="rating_tv">rating_tv</string>
+    <string name="description">description</string>
+    <string name="movie">movie</string>
+    <string name="state_details">State Details</string>
+    <string name="districts_of_maharashtra">Districts of Maharashtra</string>
+    <string name="districts_of_bihar">Districts of Bihar</string>
+    <string name="districts_of_karnataka">Districts of Karnataka</string>
+    <string name="districts_of_punjab">Districts of Punjab</string>
+    <string name="districts_of_delhi">Districts of Delhi</string>
+</resources>

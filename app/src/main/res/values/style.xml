@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="AppBarTitleTextStyle">
+        <item name="android:fontFamily">@fonts/Poppins-SemiBold</item>
+    </style>
+
+    <!-- styles.xml -->
+    <style name="Bold">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+</resources>
